@@ -8,12 +8,16 @@ import App from './App';
 import {BrowserRouter} from "react-router-dom";
 
 import store from "./redux/redux-store";
+import StoreContext from "./redux/StoreContext";
 
 //В этой фукнции мы избавляемся от циклических зависимостей за счет того, что мы не импортируем state в коде, он передается этой фукнции в качестве пропсов.
 export let rerenderEntireTree = (state) => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={store.getState()} dispatch={store.dispatch.bind(store)}/>
+            <StoreContext.Provider value={store}>
+                <App/>
+            </StoreContext.Provider>
+
         </BrowserRouter>, document.getElementById('root'));
 }
 

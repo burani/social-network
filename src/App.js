@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Header from "./components/Header/Header";
 import Dialogs from "./components/Dialogs/Dialogs";
 import Profile from "./components/Profile/Profile";
+import DialogsContainer from "./components/Dialogs/Message/DialogsContainer";
 
 function App(props) {
     return (
@@ -17,11 +18,9 @@ function App(props) {
             <div className="app-wrapper-content">
                 {/*<Route path='/dialogs' render={ () => }/>*/}
                 <Route path='/dialogs'
-                       render={() => <Dialogs dialogsPage={props.state.dialogsPage} dispatch={props.dispatch}/>}/>
+                       render={() => <DialogsContainer/>}/>
 
-                <Route path='/profile' render={() => <Profile profilePage={props.state.profilePage}
-                                                              dispatch={props.dispatch}
-                />}/>
+                <Route path='/profile' render={() => <Profile/>}/>
             </div>
         </div>
 

@@ -3,24 +3,17 @@ import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 
-
-import {updateMessageActionCreator, addMessageActionCreator} from "../../redux/dialogs-reducer";
-
 const Dialogs = (props) => {
-
 
     let dialogsElements = props.dialogsPage.dialogs.map( d => <DialogItem name={d.name} id={d.id} />  );
     let messagesElements = props.dialogsPage.messages.map( m => <Message message={m.message}/> );
 
-    //Когда эта функция будет срабатывать, то ее будет вызывать react элемент textArea, и она будет передавать в нее event
-    const updateNewText = (e) =>{
-        let text = e.target.value;
-        console.log("Current text: " + text);
-        props.dispatch(updateMessageActionCreator(text));
+    const onUpdateNewText = (e) => {
+        props.updateNewText(e);
     }
 
-    const addPost = () => {
-        props.dispatch(addMessageActionCreator());
+    const onAddClick = (e) => {
+        props.addPost();
     }
 
     return (
@@ -31,10 +24,10 @@ const Dialogs = (props) => {
             <div className={s.messages}>
                 { messagesElements }
                 <div>
-                    <textarea onChange={updateNewText} value={props.dialogsPage.newMessageText} placeholder={"Enter message text"}></textarea>
+                    <textarea onChange={onUpdateNewText} value={props.dialogsPage.newMessageText} placeholder={"Enter message text"}></textarea>
                 </div>
                 <div>
-                    <button onClick={addPost}>Send</button>
+                    <button onClick={onAddClick}>Send</button>
                 </div>
             </div>
         </div>
