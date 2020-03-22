@@ -8,15 +8,15 @@ import App from './App';
 import {BrowserRouter} from "react-router-dom";
 
 import store from "./redux/redux-store";
-import StoreContext from "./redux/StoreContext";
+import Provider from "react-redux/lib/components/Provider";
 
 //В этой фукнции мы избавляемся от циклических зависимостей за счет того, что мы не импортируем state в коде, он передается этой фукнции в качестве пропсов.
-export let rerenderEntireTree = (state) => {
+export let rerenderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>
-            <StoreContext.Provider value={store}>
+            <Provider store={store}>
                 <App/>
-            </StoreContext.Provider>
+            </Provider>
 
         </BrowserRouter>, document.getElementById('root'));
 }
@@ -26,7 +26,7 @@ export let rerenderEntireTree = (state) => {
 store.subscribe(rerenderEntireTree);
 
 //Первоначальная отрисовка приложения. (Здесь в принципе можно не использовать store.getState(), так как в этой функции все равно импортируется store(который тоже содержит state) из другого файла и переданный параметр можно просто не использовать)
-rerenderEntireTree(store.getState());
+rerenderEntireTree();
 
 
 

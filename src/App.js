@@ -10,8 +10,6 @@ import DialogsContainer from "./components/Dialogs/Message/DialogsContainer";
 
 function App(props) {
     return (
-
-
         <div className="app-wrapper">
             <Header/>
             <Navbar/>

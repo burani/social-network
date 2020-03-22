@@ -9,7 +9,7 @@ const Dialogs = (props) => {
     let messagesElements = props.dialogsPage.messages.map( m => <Message message={m.message}/> );
 
     const onUpdateNewText = (e) => {
-        props.updateNewText(e);
+        props.updateNewText(e.target.value);
     }
 
     const onAddClick = (e) => {
