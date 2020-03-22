@@ -22,17 +22,23 @@ let initialState = {
 //state == dialogsPage;
 const dialogsReducer = (state = initialState, action) => {
 
-    switch(action.type){
+    //Копию нужно делать только того, что мы собираемся менять.
+
+
+    switch (action.type) {
         case 'ADD-MESSAGE': {
-            let newMessage = {id: 1, message: state.newMessageText};
-            state.messages.push(newMessage);
-            state.newMessageText = '';
-            return state;
+            let text = state.newMessageText;
+            return {
+                ...state,
+                newMessageText: '',
+                messages: [...state.messages, {id: 1, message: text}]
+            };
         }
         case 'UPDATE-MESSAGE': {
-            console.log("state was changed");
-            state.newMessageText = action.newText;
-            return state;
+            return {
+                ...state,
+                newMessageText: action.newText
+            };
         }
         default:
             return state;

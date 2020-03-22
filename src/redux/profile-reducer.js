@@ -1,7 +1,6 @@
 //state == profilePage;
 
 
-
 let initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 12},
@@ -14,20 +13,32 @@ let initialState = {
 
 
 const profileReducer = (state = initialState, action) => {
-    switch (action.type){
+
+    // let stateCopy = {
+    //     ...state,
+    //     posts: [...state.posts]
+    // };
+
+    switch (action.type) {
         case 'ADD-POST': {
-            let newPost = {
-                id: 5,
-                message: state.newPostText,
-                likesCount: 0
-            };
-            state.posts.push(newPost);
-            state.newPostText = '';
-            return state;
+            let text = state.newPostText;
+            return {
+                ...state,
+                newPostText: '',
+                posts: [...state.posts, {
+                    id: 5,
+                    message: text,
+                    likesCount: 0
+                }]
+            }
+
+
         }
         case 'UPDATE-POST': {
-            state.newPostText = action.newText;
-            return state;
+            return {
+                ...state,
+                newPostText: action.newText
+            }
         }
         default:
             return state;
