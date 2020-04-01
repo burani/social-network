@@ -1,30 +1,30 @@
 import Users from "./Users";
 import connect from "react-redux/lib/connect/connect";
-import {followToggleAC, setCurrentPageAC, setFetchingAC, setTotalUsersAC, setUsersAC} from "../../redux/users-reducer";
+import {followToggle, setCurrentPage, setFetching, setTotalUsers, setUsers} from "../../redux/users-reducer";
 import React from "react";
 import * as axios from "axios";
 import Preloader from "./Preloader";
 
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        followToggle: (userId) =>{
-            return dispatch(followToggleAC(userId));
-        },
-        setUsers: (users) =>{
-            return dispatch(setUsersAC(users));
-        },
-        setTotalUsers: (totalUsers) => {
-            return dispatch(setTotalUsersAC(totalUsers));
-        },
-        setCurrentPage: (currentPage) => {
-            return dispatch(setCurrentPageAC(currentPage));
-        },
-        setFetching: (isFetching) => {
-            return dispatch(setFetchingAC(isFetching));
-        }
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         followToggle: (userId) =>{
+//             return dispatch(followToggleAC(userId));
+//         },
+//         setUsers: (users) =>{
+//             return dispatch(setUsersAC(users));
+//         },
+//         setTotalUsers: (totalUsers) => {
+//             return dispatch(setTotalUsersAC(totalUsers));
+//         },
+//         setCurrentPage: (currentPage) => {
+//             return dispatch(setCurrentPageAC(currentPage));
+//         },
+//         setFetching: (isFetching) => {
+//             return dispatch(setFetchingAC(isFetching));
+//         }
+//     }
+// }
 
 const mapStateToProps = (state) => {
     return {
@@ -74,4 +74,10 @@ class UsersContainer extends React.Component{
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect(mapStateToProps, {
+    followToggle,
+    setUsers,
+    setTotalUsers,
+    setCurrentPage,
+    setFetching
+})(UsersContainer);
