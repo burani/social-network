@@ -1,8 +1,9 @@
 import Users from "./Users";
 import connect from "react-redux/lib/connect/connect";
-import {followToggleAC, setCurrentPageAC, setTotalUsersAC, setUsersAC} from "../../redux/users-reducer";
+import {followToggleAC, setCurrentPageAC, setFetchingAC, setTotalUsersAC, setUsersAC} from "../../redux/users-reducer";
 import React from "react";
 import * as axios from "axios";
+import Preloader from "./Preloader";
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -18,6 +19,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         setCurrentPage: (currentPage) => {
             return dispatch(setCurrentPageAC(currentPage));
+        },
+        setFetching: (isFetching) => {
+            return dispatch(setFetchingAC(isFetching));
         }
     }
 }
@@ -28,6 +32,7 @@ const mapStateToProps = (state) => {
         currentPage: state.usersPage.currentPage,
         totalUsers: state.usersPage.totalUsers,
         pageSize: state.usersPage.pageSize,
+        isFetching: state.usersPage.isFetching
         // usersPage: state.usersPage
 
     }
@@ -37,8 +42,10 @@ const mapStateToProps = (state) => {
 class UsersContainer extends React.Component{
 
     componentDidMount() {
+        this.props.setFetching(true);
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
             .then(response => {
+                this.props.setFetching(false);
                 this.props.setUsers(response.data.items);
                 // console.log(response.data);
                 this.props.setTotalUsers(response.data.totalCount);
@@ -47,10 +54,13 @@ class UsersContainer extends React.Component{
 
 
     onPageNumClick = (pageNum) =>{
+        this.props.setFetching(true);
         this.props.setCurrentPage(pageNum);
         //    здесь надо опять делать ajax запрос
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${pageNum}`)
             .then(response => {
+                this.props.setFetching(false);
+
                 this.props.setUsers(response.data.items);
                 // console.log(response.data);
                 this.props.setTotalUsers(response.data.totalCount);
@@ -58,7 +68,7 @@ class UsersContainer extends React.Component{
     }
 
     render() {
-        return <Users totalUsers={this.props.totalUsers} pageSize={this.props.pageSize} currentPage={this.props.currentPage} users={this.props.users} onPageNumClick={this.onPageNumClick}
+        return this.props.isFetching? <Preloader/> : <Users totalUsers={this.props.totalUsers} pageSize={this.props.pageSize} currentPage={this.props.currentPage} users={this.props.users} onPageNumClick={this.onPageNumClick}
                       followToggle={this.props.followToggle}/>
     }
 }
