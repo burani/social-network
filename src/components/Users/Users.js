@@ -2,6 +2,7 @@ import React from "react";
 import userPhoto from "../../assets/img/userPhoto.png";
 import s from "./users.module.css";
 import * as axios from "axios";
+import {NavLink} from "react-router-dom";
 
 const Users = (props) => {
 
@@ -30,17 +31,19 @@ const Users = (props) => {
 
             {props.users.map(
                 (u) => {
-                    return <div key={u.id}>
-                        <img src={u.photos.small != null ? u.photos.small : userPhoto} className={s.usersPhoto}/>
-                        <span>name: {u.name}</span>
-                        <span>status: {u.status}</span>
-                        {
-                            <button onClick={() => {
-                                props.followToggle(u.id);
+                    return <NavLink to={"/profile/" + u.id} >
+                        <div key={u.id}>
+                            <img src={u.photos.small != null ? u.photos.small : userPhoto} className={s.usersPhoto}/>
+                            <span>name: {u.name}</span>
+                            <span>status: {u.status}</span>
+                            {
+                                <button onClick={() => {
+                                    props.followToggle(u.id);
+                                }
+                                }>{u.followed ? 'unfollow' : 'follow'}</button>
                             }
-                            }>{u.followed ? 'unfollow' : 'follow'}</button>
-                        }
-                    </div>
+                        </div>
+                    </NavLink>
                 }
             )}
         </div>

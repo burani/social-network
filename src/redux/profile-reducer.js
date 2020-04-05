@@ -8,7 +8,8 @@ let initialState = {
         {id: 3, message: 'Blabla', likesCount: 11},
         {id: 4, message: 'Dada', likesCount: 11}
     ],
-    newPostText: 'it-kamasutra.com'
+    newPostText: 'it-kamasutra.com',
+    profile: null
 }
 
 
@@ -40,6 +41,12 @@ const profileReducer = (state = initialState, action) => {
                 newPostText: action.newText
             }
         }
+        case 'SET-PROFILE': {
+            return {
+                ...state,
+                profile: action.profile
+            }
+        }
         default:
             return state;
     }
@@ -54,4 +61,9 @@ export const addPostActionCreator = () => {
 
 export const updatePostActionCreator = (text) => {
     return {type: 'UPDATE-POST', newText: text};
+}
+
+
+export const setProfile = (profile) => {
+    return {type: 'SET-PROFILE', profile};
 }
