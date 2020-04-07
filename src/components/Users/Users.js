@@ -31,9 +31,11 @@ const Users = (props) => {
 
             {props.users.map(
                 (u) => {
-                    return <NavLink to={"/profile/" + u.id} >
+                    return <div>
                         <div key={u.id}>
+                            <NavLink to={"/profile/" + u.id} >
                             <img src={u.photos.small != null ? u.photos.small : userPhoto} className={s.usersPhoto}/>
+                            </NavLink>
                             <span>name: {u.name}</span>
                             <span>status: {u.status}</span>
                             {
@@ -43,7 +45,8 @@ const Users = (props) => {
                                 }>{u.followed ? 'unfollow' : 'follow'}</button>
                             }
                         </div>
-                    </NavLink>
+                    </div>
+
                 }
             )}
         </div>
