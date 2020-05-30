@@ -11,6 +11,9 @@ import store from "./redux/redux-store";
 import Provider from "react-redux/lib/components/Provider";
 
 //В этой фукнции мы избавляемся от циклических зависимостей за счет того, что мы не импортируем state в коде, он передается этой фукнции в качестве пропсов.
+
+//ReactDOM.render - первый аргумент - то, что мы будем рендерить. Второй - то, куда мы будем рендерить (указываем элемент с id root)
+
 export let rerenderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>

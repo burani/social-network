@@ -42,10 +42,12 @@ const mapStateToProps = (state) => {
 class UsersContainer extends React.Component{
 
     componentDidMount() {
+
         this.props.setFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`, {withCredentials: true})
             .then(response => {
                 this.props.setFetching(false);
+                // console.log("Setting users");
                 this.props.setUsers(response.data.items);
                 // console.log(response.data);
                 this.props.setTotalUsers(response.data.totalCount);
@@ -57,7 +59,7 @@ class UsersContainer extends React.Component{
         this.props.setFetching(true);
         this.props.setCurrentPage(pageNum);
         //    здесь надо опять делать ajax запрос
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${pageNum}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${pageNum}`, {withCredentials: true})
             .then(response => {
                 this.props.setFetching(false);
 
