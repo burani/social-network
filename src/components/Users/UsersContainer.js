@@ -4,7 +4,7 @@ import {followToggle, setCurrentPage, setFetching, setTotalUsers, setUsers} from
 import React from "react";
 import * as axios from "axios";
 import Preloader from "./Preloader";
-
+import {usersAPI} from "../../api/api";
 
 // const mapDispatchToProps = (dispatch) => {
 //     return {
@@ -39,39 +39,39 @@ const mapStateToProps = (state) => {
 }
 
 
-class UsersContainer extends React.Component{
+class UsersContainer extends React.Component {
 
     componentDidMount() {
 
         this.props.setFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`, {withCredentials: true})
-            .then(response => {
-                this.props.setFetching(false);
-                // console.log("Setting users");
-                this.props.setUsers(response.data.items);
-                // console.log(response.data);
-                this.props.setTotalUsers(response.data.totalCount);
-            })
+        usersAPI.getUsers(this.props.pageSize).then(response => {
+            this.props.setFetching(false);
+            // console.log("Setting users");
+            this.props.setUsers(response.items);
+            // console.log(response.data);
+            this.props.setTotalUsers(response.totalCount);
+        })
     }
 
 
-    onPageNumClick = (pageNum) =>{
+    onPageNumClick = (pageNum) => {
         this.props.setFetching(true);
         this.props.setCurrentPage(pageNum);
         //    здесь надо опять делать ajax запрос
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${pageNum}`, {withCredentials: true})
-            .then(response => {
-                this.props.setFetching(false);
+        usersAPI.getUsers(this.props.pageSize, pageNum).then(response => {
+            this.props.setFetching(false);
 
-                this.props.setUsers(response.data.items);
-                // console.log(response.data);
-                this.props.setTotalUsers(response.data.totalCount);
-            })
+            this.props.setUsers(response.items);
+            // console.log(response.data);
+            this.props.setTotalUsers(response.totalCount);
+        })
     }
 
     render() {
-        return this.props.isFetching? <Preloader/> : <Users totalUsers={this.props.totalUsers} pageSize={this.props.pageSize} currentPage={this.props.currentPage} users={this.props.users} onPageNumClick={this.onPageNumClick}
-                      followToggle={this.props.followToggle}/>
+        return this.props.isFetching ? <Preloader/> :
+            <Users totalUsers={this.props.totalUsers} pageSize={this.props.pageSize}
+                   currentPage={this.props.currentPage} users={this.props.users} onPageNumClick={this.onPageNumClick}
+                   followToggle={this.props.followToggle}/>
     }
 }
 

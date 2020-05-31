@@ -3,6 +3,7 @@ import userPhoto from "../../assets/img/userPhoto.png";
 import s from "./users.module.css";
 import * as axios from "axios";
 import {NavLink} from "react-router-dom";
+import {usersAPI} from "../../api/api";
 
 const Users = (props) => {
 
@@ -42,12 +43,7 @@ const Users = (props) => {
                             {
                                 <button onClick={() => {
                                     if (u.followed) {
-                                        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                                            withCredentials: true,
-                                            headers: {
-                                                "API-KEY": "2f2def53-1584-4498-991e-181b10f82cdb"
-                                            }
-                                        }).then(
+                                        usersAPI.unfollow(u.id).then(
                                             (response) => {
                                                 if (response.data.resultCode === 0) {
                                                     props.followToggle(u.id);
@@ -56,12 +52,7 @@ const Users = (props) => {
                                             }
                                         );
                                     } else {
-                                        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                                            withCredentials: true,
-                                            headers: {
-                                                "API-KEY": "2f2def53-1584-4498-991e-181b10f82cdb"
-                                            }
-                                        }).then(
+                                        usersAPI.follow(u.id).then(
                                             (response) => {
                                                 if (response.data.resultCode === 0) {
                                                     props.followToggle(u.id);
