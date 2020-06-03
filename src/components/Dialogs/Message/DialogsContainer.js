@@ -26,7 +26,8 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-
+//Созданные коннектом методы используют dispatch в замыкании чтобы диспатчить то, что вернули action/thunk creator (экшены/санки). (метод dispatch доступен в замыкании в этих методах)
+//Для создания санки нам нужнем сам метод dispatch, а не просто информация из UI. Поэтому санк-креатор вернет санку, в которую надо будет в качестве аргумента предоставить
 const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
 
 export default DialogsContainer;

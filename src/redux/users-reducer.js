@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 let initialState = {
     users: [],
     currentPage: 1,
@@ -79,6 +81,54 @@ export const setTotalUsers = (totalUsers) => ({type: 'SET-TOTAL-USERS', totalUse
 export const setCurrentPage = (currentPage) => ({type: 'SET-CURRENT-PAGE', currentPage});
 export const setFetching = (isFetching) => ({type: 'SET-IS-FETCHING', isFetching});
 export const toggleFollowingProgress = (id, isFetching) => ({type: 'TOGGLE-IS-FOLLOWING-PROGRESS', id, isFetching});
+
+
+//нужно запомнить, что когда мы передаем action/thunk creator'ы в качестве параметра на место mapDistatchToProps в методе connect, то:
+//Connect атоматически создаст колбеки, которые при вызове будут диспатчить в редьюсор то, что вернут action-креаторы (action-объекты)
+
+//Однако коллбеки над thunk-creatro'ом будут диспатчить в редьюсор не action, а thunk -
+
+//Добавляем thunk-creator'ы
+
+export const getUsers = (pageSize, currentPage) => {
+    return (dispatch) => {
+        dispatch(setFetching(true));
+        dispatch(setCurrentPage(currentPage));
+        usersAPI.getUsers(pageSize, currentPage).then(response => {
+            dispatch(setFetching(false));
+            // console.log("Setting users");
+            dispatch(setUsers(response.items));
+            // console.log(response.data);
+            dispatch(setTotalUsers(response.totalCount));
+        })
+    }
+}
+
+
+
+export const unfollow = (id) => {
+    return (dispatch) => {
+        dispatch(toggleFollowingProgress(id, true));
+        usersAPI.unfollow(id).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(followToggle(id));
+            }
+            dispatch(toggleFollowingProgress(id, false));
+        })
+    }
+};
+
+export const follow = (id) => {
+    return (dispatch) => {
+        dispatch(toggleFollowingProgress(id, true));
+        usersAPI.follow(id).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(followToggle(id));
+            }
+            dispatch(toggleFollowingProgress(id, false));
+        })
+    }
+};
 
 
 export default usersReducer;
