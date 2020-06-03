@@ -12,29 +12,8 @@ import {
     unfollow
 } from "../../redux/users-reducer";
 import React from "react";
-import * as axios from "axios";
 import Preloader from "./Preloader";
-import {usersAPI} from "../../api/api";
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         followToggle: (userId) =>{
-//             return dispatch(followToggleAC(userId));
-//         },
-//         setUsers: (users) =>{
-//             return dispatch(setUsersAC(users));
-//         },
-//         setTotalUsers: (totalUsers) => {
-//             return dispatch(setTotalUsersAC(totalUsers));
-//         },
-//         setCurrentPage: (currentPage) => {
-//             return dispatch(setCurrentPageAC(currentPage));
-//         },
-//         setFetching: (isFetching) => {
-//             return dispatch(setFetchingAC(isFetching));
-//         }
-//     }
-// }
 
 const mapStateToProps = (state) => {
     return {
@@ -55,10 +34,7 @@ const mapStateToProps = (state) => {
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-
-        //    здесь будет вызываться санка
         this.props.getUsers(this.props.pageSize, 1);
-
     }
 
 

@@ -1,6 +1,8 @@
 //state == profilePage;
 
 
+import {usersAPI} from "../api/api";
+
 let initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 12},
@@ -14,11 +16,6 @@ let initialState = {
 
 
 const profileReducer = (state = initialState, action) => {
-
-    // let stateCopy = {
-    //     ...state,
-    //     posts: [...state.posts]
-    // };
 
     switch (action.type) {
         case 'ADD-POST': {
@@ -66,4 +63,14 @@ export const updatePostActionCreator = (text) => {
 
 export const setProfile = (profile) => {
     return {type: 'SET-PROFILE', profile};
+}
+
+//thunk-creators
+export const setProfileInfo = (userId) => {
+    return (dispatch) => {
+        usersAPI.getProfileInfo(userId)
+            .then(response => {
+                dispatch(setProfile(response.data));
+            })
+    }
 }

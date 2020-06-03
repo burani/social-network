@@ -30,8 +30,19 @@ export const usersAPI = {
                 "API-KEY": "2f2def53-1584-4498-991e-181b10f82cdb"
             }
         })
+    },
+    getProfileInfo(userId){
+        return instance.get('profile/' + userId)
     }
 
+
+};
+
+
+export const authAPI = {
+    getAuthUserData(){
+        return instance.get('auth/me')
+    },
 
 };
 
