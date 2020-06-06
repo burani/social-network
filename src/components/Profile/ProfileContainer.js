@@ -3,6 +3,7 @@ import {setProfileInfo} from "../../redux/profile-reducer";
 import connect from "react-redux/lib/connect/connect";
 import Profile from "./Profile";
 import {withRouter} from "react-router-dom";
+import WithAuthRedirect from "../../hoc/WithAuthRedirect";
 
 
 const mapStateToProps = (state) => {
@@ -33,5 +34,4 @@ class ProfileContainer extends React.Component {
 
 const WithURLProfileContainer = withRouter(ProfileContainer);
 
-//Еще одна контейнерная компонента, которая создается методом connect от redux и позволяет внедрить в классовую контейнерную компоненту информацию из store.
-export default connect(mapStateToProps, {setProfileInfo})(WithURLProfileContainer);
+export default WithAuthRedirect(connect(mapStateToProps, {setProfileInfo})(WithURLProfileContainer));

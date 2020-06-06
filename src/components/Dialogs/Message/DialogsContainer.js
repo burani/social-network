@@ -2,6 +2,7 @@ import React from 'react';
 import Dialogs from "../Dialogs";
 import {updateMessageActionCreator, addMessageActionCreator} from "../../../redux/dialogs-reducer";
 import connect from "react-redux/lib/connect/connect";
+import WithAuthRedirect from "../../../hoc/WithAuthRedirect";
 
 
 //connect защищает нас от знания о store. (он возвращает нам готовую контейнерную компоненту)
@@ -28,7 +29,7 @@ let mapDispatchToProps = (dispatch) => {
 
 //Созданные коннектом методы используют dispatch в замыкании чтобы диспатчить то, что вернули action/thunk creator (экшены/санки). (метод dispatch доступен в замыкании в этих методах)
 //Для создания санки нам нужнем сам метод dispatch, а не просто информация из UI. Поэтому санк-креатор вернет санку, в которую надо будет в качестве аргумента предоставить
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+const DialogsContainer = WithAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(Dialogs));
 
 export default DialogsContainer;
 
