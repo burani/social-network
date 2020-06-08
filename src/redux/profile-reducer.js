@@ -1,7 +1,7 @@
 //state == profilePage;
 
 
-import {usersAPI} from "../api/api";
+import {profileAPI, usersAPI} from "../api/api";
 
 let initialState = {
     posts: [
@@ -11,12 +11,12 @@ let initialState = {
         {id: 4, message: 'Dada', likesCount: 11}
     ],
     newPostText: 'it-kamasutra.com',
-    profile: null
+    profile: null,
+    status: ''
 }
 
 
 const profileReducer = (state = initialState, action) => {
-
     switch (action.type) {
         case 'ADD-POST': {
             let text = state.newPostText;
@@ -44,26 +44,39 @@ const profileReducer = (state = initialState, action) => {
                 profile: action.profile
             }
         }
+        case 'SET-STATUS': {
+            debugger;
+            return {
+                ...state,
+                status: action.status
+            }
+        }
         default:
             return state;
     }
-
-}
+};
 
 export default profileReducer;
 
 export const addPostActionCreator = () => {
     return {type: 'ADD-POST'};
-}
+};
 
 export const updatePostActionCreator = (text) => {
     return {type: 'UPDATE-POST', newText: text};
-}
+};
 
 
 export const setProfile = (profile) => {
     return {type: 'SET-PROFILE', profile};
-}
+};
+
+export const setStatus = (status) => {
+    debugger;
+    return {type: 'SET-STATUS', status};
+};
+
+
 
 //thunk-creators
 export const setProfileInfo = (userId) => {
@@ -73,4 +86,26 @@ export const setProfileInfo = (userId) => {
                 dispatch(setProfile(response.data));
             })
     }
-}
+};
+
+export const getProfileStatus = (userId) => {
+    return (dispatch) => {
+        profileAPI.getProfileStatus(userId)
+            .then(response => {
+                dispatch(setStatus(response.data));//response.data будет String.
+            })
+    }
+};
+
+export const updateProfileStatus = (status) => {
+    return (dispatch) => {
+        profileAPI.updateProfileStatus(status)
+            .then(response => {
+                debugger;
+                if (response.data.resultCode === 0) dispatch(setStatus(status));//status - новый статус, который передается из локального стейта в компоненте ProfileStatus
+            })
+    }
+};
+
+
+
