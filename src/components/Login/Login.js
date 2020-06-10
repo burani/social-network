@@ -1,7 +1,43 @@
-import React from "react";
+import React from 'react';
+import {Field, reduxForm} from "redux-form";
+
+const LoginForm = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field placeholder={"Login"} name={"login"} component={"input"}/>
+            </div>
+            <div>
+                <Field placeholder={"Password"} name={"password"} component={"input"}/>
+            </div>
+            <div>
+               Remember me <Field name={"rememberMe"} component={"input"} type={"checkbox"}/>
+            </div>
+            <div>
+                <button>Login</button>
+            </div>
+
+
+        </form>
+    )
+}
+
+//Создаем контейнерную компоненту, которая будет подключена к стору и редьюсеру redux-form (formReducer)
+const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
+
 
 const Login = (props) => {
-    return (<div>Login</div>)
+
+    const onSubmit = (formData) => {
+        console.log(formData);
+    }
+
+    return (
+        <div>
+            <h2>Login</h2>
+            <LoginReduxForm onSubmit={onSubmit}/>
+        </div>
+    )
 }
 
 

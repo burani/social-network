@@ -1,9 +1,9 @@
 import React from 'react';
 import Dialogs from "../Dialogs";
 import {updateMessageActionCreator, addMessageActionCreator} from "../../../redux/dialogs-reducer";
-import connect from "react-redux/lib/connect/connect";
 import WithAuthRedirect from "../../../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {connect} from "react-redux";
 
 
 //connect защищает нас от знания о store. (он возвращает нам готовую контейнерную компоненту)

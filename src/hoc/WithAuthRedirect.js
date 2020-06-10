@@ -1,6 +1,6 @@
 import React from "react";
-import connect from "react-redux/lib/connect/connect";
 import {Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
 
 //Функция, которая создает hoc. В качестве параметра принимает компоненту, которой мы хотим добавить какой-то дополнительный функционал, на выход получается созданная оберточная компонента, которая содержит изначальную компоненту, но имеет дополнительный функционал

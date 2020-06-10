@@ -1,10 +1,10 @@
 import React from "react";
 import {getProfileStatus, setProfileInfo, updateProfileStatus} from "../../redux/profile-reducer";
-import connect from "react-redux/lib/connect/connect";
 import Profile from "./Profile";
 import {withRouter} from "react-router-dom";
 import WithAuthRedirect from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {connect} from "react-redux";
 
 
 const mapStateToProps = (state) => {

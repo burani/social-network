@@ -1,5 +1,4 @@
 import Users from "./Users";
-import connect from "react-redux/lib/connect/connect";
 import {
     followToggle,
     setCurrentPage,
@@ -15,6 +14,7 @@ import React from "react";
 import Preloader from "./Preloader";
 import WithAuthRedirect from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {connect} from "react-redux";
 
 
 const mapStateToProps = (state) => {
