@@ -1,7 +1,7 @@
 import React from 'react';
-import Dialogs from "../Dialogs";
-import {updateMessageActionCreator, addMessageActionCreator} from "../../../redux/dialogs-reducer";
-import WithAuthRedirect from "../../../hoc/WithAuthRedirect";
+import Dialogs from "./Dialogs";
+import {addMessage} from "../../redux/dialogs-reducer";
+import WithAuthRedirect from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
 import {connect} from "react-redux";
 
@@ -17,16 +17,7 @@ let  mapStateToProps = (state) => {
         dialogsPage: state.dialogsPage
     }
 }
-let mapDispatchToProps = (dispatch) => {
-    return {
-        updateNewText: (body) => {
-            dispatch(updateMessageActionCreator(body));
-        },
-        addPost: () => {
-            dispatch(addMessageActionCreator());
-        }
-    }
-}
+
 
 //Созданные коннектом методы используют dispatch в замыкании чтобы диспатчить то, что вернули action/thunk creator (экшены/санки). (метод dispatch доступен в замыкании в этих методах)
 //Для создания санки нам нужнем сам метод dispatch, а не просто информация из UI. Поэтому санк-креатор вернет санку, в которую надо будет в качестве аргумента предоставить
@@ -36,7 +27,7 @@ let mapDispatchToProps = (dispatch) => {
 
 export default compose(
     WithAuthRedirect,
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps, {addMessage})
 )(Dialogs)
 
 

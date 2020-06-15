@@ -1,21 +1,16 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
-// import {addPost, updateNewPostText} from "../../../redux/state";
-
+import {Field, reduxForm} from "redux-form";
 
 
 const MyPosts = (props) => {
     let postsElements =
-        props.profilePage.posts.map( p => <Post message={p.message} likesCount={p.likesCount}/>);
+        props.profilePage.posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>);
 
-
-    const onChangePost = (e) => {
-        props.changePost(e);
-    }
-
-    const onAddClick = (e) => {
-        props.addPost();
+    //prev name = onAddClick
+    const onSubmit = (formData) => {
+        props.addPost(formData.post);
     }
 
     return (
@@ -23,17 +18,34 @@ const MyPosts = (props) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea onChange={onChangePost} value={props.profilePage.newPostText} />
-                </div>
-                <div>
-                    <button onClick={ onAddClick }>Add post</button>
+                    <ProfilePostsReduxForm onSubmit={onSubmit} profilePage={props.profilePage}/>
                 </div>
             </div>
             <div className={s.posts}>
-                { postsElements }
+                {postsElements}
             </div>
         </div>
     )
 }
+
+
+const ProfilePostsForm = (props) => {
+    // debugger;
+    return (
+
+        //Здесь надо вызывать не тот метод onSubmit, который мы передали в форму, а метод props.handleSubmit от redux-form, он сам вызывает onSubmit и коннектит форму к стору.
+        //Не знаю как засетать value у Fiedl, оно просто не меняется
+        //мне кажется, что надо делать через state redux-form каким-то образом
+        <form onSubmit={props.handleSubmit}>
+            <Field name={"post"} component={"input"} placeholder={"Enter you new post here"}/>
+            <span>
+                <button>Add post</button>
+            </span>
+        </form>
+    )
+};
+
+const ProfilePostsReduxForm = reduxForm({form: "profilePost"})(ProfilePostsForm);
+
 
 export default MyPosts;
