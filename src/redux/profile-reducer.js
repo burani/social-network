@@ -45,7 +45,6 @@ const profileReducer = (state = initialState, action) => {
             }
         }
         case 'SET-STATUS': {
-            debugger;
             return {
                 ...state,
                 status: action.status
@@ -72,7 +71,6 @@ export const setProfile = (profile) => {
 };
 
 export const setStatus = (status) => {
-    debugger;
     return {type: 'SET-STATUS', status};
 };
 

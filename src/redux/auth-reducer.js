@@ -45,3 +45,23 @@ export const getAuthUserData = () => {
         );
     }
 };
+
+export const loginUser = (formData) => {
+    // debugger;
+    return (dispatch) => {
+        authAPI.login({email: formData.login, password: formData.password, rememberMe: formData.rememberMe}).then(
+            (response) => {
+                debugger;
+                if (response.data.resultCode === 0){
+                    console.log(response.data);
+                    //здесь надо засетать полученного пользователя (залогиненного)
+                    dispatch(setAuthUserData(response.data.userId, formData.login, "tempLogin"));
+                    dispatch(getAuthUserData());
+
+                } else{
+                    alert(response.data.messages[0])
+                }
+            }
+        )
+    }
+}

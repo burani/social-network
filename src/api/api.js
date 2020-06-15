@@ -56,5 +56,8 @@ export const authAPI = {
     getAuthUserData(){
         return instance.get('auth/me')
     },
+    login(formData){
+        return instance.post('auth/login', {email: formData.email, password: formData.password, rememberMe: formData.rememberMe})
+    }
 };
 
