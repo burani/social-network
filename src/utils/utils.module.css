@@ -1,0 +1,14 @@
+.formElement{
+
+}
+
+.formElement.error input,
+.formElement.error textarea
+{
+    border: 1px red solid;
+}
+
+.formElement span{
+    margin-left: 5px;
+    color: red;
+}

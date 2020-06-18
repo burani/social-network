@@ -2,6 +2,8 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import {Field, reduxForm} from "redux-form";
+import {maxLengthCreator, required} from "../../../utils/validators";
+import FormElement from "../../../utils/FormElement";
 
 
 const MyPosts = (props) => {
@@ -28,6 +30,8 @@ const MyPosts = (props) => {
     )
 }
 
+const maxLength = maxLengthCreator(100);
+const PostsTextArea = FormElement("textarea");
 
 const ProfilePostsForm = (props) => {
     // debugger;
@@ -37,7 +41,7 @@ const ProfilePostsForm = (props) => {
         //Не знаю как засетать value у Fiedl, оно просто не меняется
         //мне кажется, что надо делать через state redux-form каким-то образом
         <form onSubmit={props.handleSubmit}>
-            <Field name={"post"} component={"input"} placeholder={"Enter you new post here"}/>
+            <Field name={"post"} component={PostsTextArea} placeholder={"Enter you new post here"} validate={[maxLength, required]}/>
             <span>
                 <button>Add post</button>
             </span>
