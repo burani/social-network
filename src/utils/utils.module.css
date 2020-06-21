@@ -12,3 +12,12 @@
     margin-left: 5px;
     color: red;
 }
+
+.formSummaryError{
+    border: 1px solid red;
+    padding: 10px;
+    color: red;
+    width: fit-content;
+
+
+}

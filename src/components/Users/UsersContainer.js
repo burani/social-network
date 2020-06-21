@@ -6,43 +6,36 @@ import {
     setTotalUsers,
     setUsers,
     toggleFollowingProgress,
-    getUsers,
+    requestUsers,
     follow,
     unfollow
 } from "../../redux/users-reducer";
+
 import React from "react";
 import Preloader from "./Preloader";
 import WithAuthRedirect from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
 import {connect} from "react-redux";
-
-
-const mapStateToProps = (state) => {
-    return {
-        users: state.usersPage.users,
-        currentPage: state.usersPage.currentPage,
-        totalUsers: state.usersPage.totalUsers,
-        pageSize: state.usersPage.pageSize,
-        isFetching: state.usersPage.isFetching,
-        usersFollowing: state.usersPage.followingActive,
-
-
-        // usersPage: state.usersPage
-
-    }
-}
+import {
+    getCurrentPage,
+    getIsFetching,
+    getPageSize,
+    getTotalUsers,
+    getUsersFollowing,
+    getUsers
+} from "../../redux/users-selectors";
 
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-        this.props.getUsers(this.props.pageSize, 1);
+        this.props.requestUsers(this.props.pageSize, 1);
     }
 
 
     onPageNumClick = (pageNum) => {
 
-        this.props.getUsers(this.props.pageSize, pageNum);
+        this.props.requestUsers(this.props.pageSize, pageNum);
     };
 
     render() {
@@ -55,9 +48,18 @@ class UsersContainer extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        users: getUsers(state),
+        currentPage: getCurrentPage(state),
+        totalUsers: getTotalUsers(state),
+        pageSize: getPageSize(state),
+        isFetching: getIsFetching(state),
+        usersFollowing: getUsersFollowing(state),
+    }
+};
 
 export default compose(
-    WithAuthRedirect,
     connect(mapStateToProps, {
         followToggle,
         setUsers,
@@ -65,7 +67,7 @@ export default compose(
         setCurrentPage,
         setFetching,
         toggleFollowingProgress,
-        getUsers,
+        requestUsers,
         follow,
         unfollow
     })

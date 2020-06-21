@@ -3,7 +3,6 @@ import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {Field, reduxForm} from "redux-form";
-import {addMessage} from "../../redux/dialogs-reducer";
 import {maxLengthCreator, required} from "../../utils/validators";
 import FormElement from "../../utils/FormElement";
 

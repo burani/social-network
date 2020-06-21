@@ -7,6 +7,7 @@ import authReducer from "./auth-reducer";
 import thunkMiddleware from "redux-thunk";
 //это скорее всего неправильный импорт
 import {reducer as formReducer} from 'redux-form'
+import appReducer from "./app-reducer";
 
 
 //Этот объект по сути можно воспринимать как state по аналогии store.js
@@ -16,11 +17,10 @@ let reducers = combineReducers({
     sidebar: sidebarReducer,
     usersPage: usersReducer,
     auth: authReducer,
-    form: formReducer
+    form: formReducer,
+    app: appReducer
 });
 
-
-//После этого redux store создаст внутри себя три свойства, которые мы указали в combineReducers, как у нас и было в store.js.
 
 //redux чтобы проинициализировать state при запуске приложения вызывает метод dispatch с проприетарным action типом и undefined state.
 //Это делается чтобы в каждой ветви state'a (в каждом редьюсере) проинициализировался state по умолчанию.
