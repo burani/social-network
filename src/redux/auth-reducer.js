@@ -1,4 +1,4 @@
-import {authAPI} from "../api/api";
+import {authAPI, profileAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
 let initialState = {
@@ -33,53 +33,42 @@ export const setAuthUserData = (userId, email, login, isAuth) => {
 };
 
 export const getAuthUserData = () => {
-    return (dispatch) => {
-        return authAPI.getAuthUserData().then(
-            (response) => {
-                if (response.data.resultCode === 0) {
-                    let {id, email, login} = response.data.data;
-                    dispatch(setAuthUserData(id, email, login, true));
-                }
-
-            }
-        );
+    return async (dispatch) => {
+        let response = await authAPI.getAuthUserData()
+        if (response.data.resultCode === 0) {
+            let {id, email, login} = response.data.data;
+            dispatch(setAuthUserData(id, email, login, true));
+        }
     }
 };
 
 export const loginUser = (formData) => {
-    // debugger;
-    return (dispatch) => {
-        authAPI.login({email: formData.login, password: formData.password, rememberMe: formData.rememberMe}).then(
-            (response) => {
-                // debugger;
-                if (response.data.resultCode === 0){
-                    console.log(response.data);
-                    //Здесь сначала просто заносятся данные в куки, далее в функции getAuthUserData на основании этих данных из куки собираются данные о пользователе и сетаются
-                    dispatch(getAuthUserData());
-                } else{
+    return async (dispatch) => {
+        let response = await authAPI.login({
+            email: formData.login,
+            password: formData.password,
+            rememberMe: formData.rememberMe
+        });
+        if (response.data.resultCode === 0) {
+            //Здесь сначала просто заносятся данные в куки, далее в функции getAuthUserData на основании этих данных из куки собираются данные о пользователе и сетаются
+            dispatch(getAuthUserData());
+        } else {
+            let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error";
+            dispatch(stopSubmit("login", {_error: message}));
 
-                    //вроде бы здесь надо задиспатчить stopSubmit().
-                    // alert(response.data.messages[0])
-                    let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error";
-                    dispatch(stopSubmit("login", {_error: message}));
-
-                }
-            }
-        )
+        }
     }
-}
+};
 
 export const logout = () => {
-    return (dispatch) => {
-        authAPI.logout().then(
-            (response) => {
-                if (response.data.resultCode === 0){
-                    //Здесь надо сбросить залогинненного пользователя
-                    dispatch(setAuthUserData(null, null, null, false));
-                } else{
-                    alert(response.data.messages[0])
-                }
-            }
-        )
+    return async (dispatch) => {
+        const response = await authAPI.logout();
+
+        if (response.data.resultCode === 0) {
+            //Здесь надо сбросить залогинненного пользователя
+            dispatch(setAuthUserData(null, null, null, false));
+        } else {
+            alert(response.data.messages[0])
+        }
     }
-}
+};

@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
@@ -25,8 +25,18 @@ let reducers = combineReducers({
 //redux чтобы проинициализировать state при запуске приложения вызывает метод dispatch с проприетарным action типом и undefined state.
 //Это делается чтобы в каждой ветви state'a (в каждом редьюсере) проинициализировался state по умолчанию.
 //Теперь state по умолчанию находится в самих редьюсерах.
-let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
-window.store = store;
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+let store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)));
+
+
+
+
+
+
+
+window.__store__ = store;
 
 export default store;

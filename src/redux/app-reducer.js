@@ -26,13 +26,11 @@ export const setInitialized = (initialized) => {
 //thunk-creators
 
 export const initializeApp = () => {
-    return (dispatch) => {
-        dispatch(getAuthUserData()).then(
-            (response) => {
-                dispatch(setInitialized(true));
-            }
-        )
+    return async (dispatch) => {
+        // debugger;
+        let response = await dispatch(getAuthUserData());
+        dispatch(setInitialized(true));
     }
-}
+};
 
 export default appReducer;

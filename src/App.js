@@ -18,6 +18,7 @@ class App extends Component {
     componentDidMount() {
         //Здесь происходит инициализация приложения
         this.props.initializeApp();
+
     }
 
 

@@ -4,6 +4,7 @@ import s from "./users.module.css";
 import * as axios from "axios";
 import {NavLink} from "react-router-dom";
 import {usersAPI} from "../../api/api";
+import User from "./User";
 
 const Users = (props) => {
 
@@ -32,29 +33,8 @@ const Users = (props) => {
 
             {props.users.map(
                 (u) => {
-                    return <div>
-                        <div key={u.id}>
-                            <NavLink to={"/profile/" + u.id}>
-                                <img src={u.photos.small != null ? u.photos.small : userPhoto}
-                                     className={s.usersPhoto}/>
-                            </NavLink>
-                            <span>name: {u.name}</span>
-                            <span>status: {u.status}</span>
-                            {
-                                <button disabled={props.usersFollowing.some((userId) => (u.id === userId))}
-                                        onClick={() => {
-
-                                            if (u.followed) {
-                                                props.unfollow(u.id);
-                                            } else {
-                                                props.follow(u.id);
-                                            }
-
-                                        }
-                                        }>{u.followed ? 'unfollow' : 'follow'}</button>
-                            }
-                        </div>
-                    </div>
+                    return <User id={u.id} photo={u.photos.small} name={u.name} status={u.status} followed={u.followed}
+                                 follow={props.follow} unfollow={props.unfollow} usersFollowing={props.usersFollowing}/>
 
                 }
             )}

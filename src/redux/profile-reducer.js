@@ -15,7 +15,7 @@ let initialState = {
 }
 
 
-const profileReducer = (state = initialState, action) => {
+export const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD-POST': {
             return {
@@ -27,6 +27,13 @@ const profileReducer = (state = initialState, action) => {
                 }]
             }
         }
+        case 'DELETE-POST': {
+            return {
+                ...state,
+                posts: state.posts.filter(post => post.id != action.id)
+            }
+        }
+
         case 'SET-PROFILE': {
             return {
                 ...state,
@@ -50,6 +57,9 @@ export const addPost = (newPostText) => {
     return {type: 'ADD-POST', newPostText};
 };
 
+export const deletePost = (id) => {
+    return {type: 'DELETE-POST', id};
+};
 
 export const setProfile = (profile) => {
     return {type: 'SET-PROFILE', profile};
@@ -60,33 +70,26 @@ export const setStatus = (status) => {
 };
 
 
-
 //thunk-creators
 export const setProfileInfo = (userId) => {
-    return (dispatch) => {
-        usersAPI.getProfileInfo(userId)
-            .then(response => {
-                dispatch(setProfile(response.data));
-            })
+    return async (dispatch) => {
+        const response = await usersAPI.getProfileInfo(userId);
+        dispatch(setProfile(response.data));
     }
 };
 
 export const getProfileStatus = (userId) => {
-    return (dispatch) => {
-        profileAPI.getProfileStatus(userId)
-            .then(response => {
-                dispatch(setStatus(response.data));//response.data будет String.
-            })
+    return async (dispatch) => {
+        const response = await profileAPI.getProfileStatus(userId)
+        dispatch(setStatus(response.data));//response.data будет String.
     }
 };
 
 export const updateProfileStatus = (status) => {
-    return (dispatch) => {
-        profileAPI.updateProfileStatus(status)
-            .then(response => {
-                debugger;
-                if (response.data.resultCode === 0) dispatch(setStatus(status));//status - новый статус, который передается из локального стейта в компоненте ProfileStatus
-            })
+    return async (dispatch) => {
+        const response = await profileAPI.updateProfileStatus(status)
+        debugger;
+        if (response.data.resultCode === 0) dispatch(setStatus(status));//status - новый статус, который передается из локального стейта в компоненте ProfileStatus
     }
 };
 
