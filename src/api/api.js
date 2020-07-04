@@ -31,7 +31,7 @@ export const usersAPI = {
             }
         })
     },
-    getProfileInfo(userId){
+    getProfileInfo(userId) {
         console.warn("Obsolete method, please use profileAPI object");
         return profileAPI.getProfileInfo(userId);
     }
@@ -39,27 +39,40 @@ export const usersAPI = {
 
 
 export const profileAPI = {
-    getProfileInfo(userId){
+    getProfileInfo(userId) {
         return instance.get('profile/' + userId)
     },
-    getProfileStatus(userId){
+    getProfileStatus(userId) {
         return instance.get('profile/status/' + userId)
     },
-    updateProfileStatus(status){
+    updateProfileStatus(status) {
         return instance.put('profile/status/', {status: status})
+    },
+    updateProfilePhoto(photoFile) {
+        const formData = new FormData();
+        formData.append("image", photoFile);
+
+        return instance.put('profile/photo/', formData, {
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }
+        })
     }
 };
 
 
-
 export const authAPI = {
-    getAuthUserData(){
+    getAuthUserData() {
         return instance.get('auth/me')
     },
-    login(formData){
-        return instance.post('auth/login', {email: formData.email, password: formData.password, rememberMe: formData.rememberMe})
+    login(formData) {
+        return instance.post('auth/login', {
+            email: formData.email,
+            password: formData.password,
+            rememberMe: formData.rememberMe
+        })
     },
-    logout(){
+    logout() {
         return instance.delete('auth/login')
     }
 };

@@ -1,5 +1,11 @@
 import React from "react";
-import {getProfileStatus, setProfileInfo, updateProfileStatus} from "../../redux/profile-reducer";
+import {
+    getProfileStatus,
+    setProfile,
+    setProfileInfo,
+    updatePhoto,
+    updateProfileStatus
+} from "../../redux/profile-reducer";
 import Profile from "./Profile";
 import {withRouter} from "react-router-dom";
 import WithAuthRedirect from "../../hoc/WithAuthRedirect";
@@ -20,7 +26,22 @@ const mapStateToProps = (state) => {
 //классовая контейнерная компонента, которая используется, чтобы отрисовать компоненту Profile и внедрить в нее ajax функционал
 class ProfileContainer extends React.Component {
 
+
+
+
     componentDidMount() {
+        this.getProfileInfo();
+    }
+
+
+    componentDidUpdate(prevProps, prevState) {
+        let currentUserId = this.props.match.params.userId;
+        if (prevProps.match.params.userId !== currentUserId){
+            this.getProfileInfo();
+        }
+    }
+
+    getProfileInfo() {
         let userId = this.props.match.params.userId;
 
         if (!userId) {
@@ -30,12 +51,15 @@ class ProfileContainer extends React.Component {
 
         this.props.setProfileInfo(userId);
         this.props.getProfileStatus(userId);
-
     }
 
 
+
+
+
+
     render() {
-        return (<Profile {...this.props} profile={this.props.profile}/>)
+        return (<Profile {...this.props} profile={this.props.profile} isOwner={!this.props.match.params.userId}/>)
     }
 }
 
@@ -43,7 +67,7 @@ class ProfileContainer extends React.Component {
 
 export default compose(
     WithAuthRedirect,
-    connect(mapStateToProps, {setProfileInfo, getProfileStatus, updateProfileStatus}),
+    connect(mapStateToProps, {setProfileInfo, getProfileStatus, updateProfileStatus, updatePhoto}),
     withRouter
 )(ProfileContainer)
 

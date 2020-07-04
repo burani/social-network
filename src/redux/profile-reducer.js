@@ -46,6 +46,12 @@ export const profileReducer = (state = initialState, action) => {
                 status: action.status
             }
         }
+        case 'UPDATE-PHOTO': {
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos}
+            }
+        }
         default:
             return state;
     }
@@ -68,6 +74,9 @@ export const setProfile = (profile) => {
 export const setStatus = (status) => {
     return {type: 'SET-STATUS', status};
 };
+export const updatePhotoSuccess = (photos) => {
+    return {type: 'UPDATE-PHOTO', photos};
+};
 
 
 //thunk-creators
@@ -88,10 +97,17 @@ export const getProfileStatus = (userId) => {
 export const updateProfileStatus = (status) => {
     return async (dispatch) => {
         const response = await profileAPI.updateProfileStatus(status)
-        debugger;
         if (response.data.resultCode === 0) dispatch(setStatus(status));//status - новый статус, который передается из локального стейта в компоненте ProfileStatus
     }
 };
+export const updatePhoto = (photoFile) => {
+    return async (dispatch) => {
+        const response = await profileAPI.updateProfilePhoto(photoFile);
+        if (response.data.resultCode === 0) dispatch(updatePhotoSuccess(response.data.data.photos));//status - новый статус, который передается из локального стейта в компоненте ProfileStatus
+    }
+};
+
+
 
 
 

@@ -1,6 +1,6 @@
 import React, {Component, Suspense} from 'react';
 import './App.css';
-import {BrowserRouter, Route, withRouter} from 'react-router-dom'
+import {BrowserRouter, HashRouter, Route, withRouter} from 'react-router-dom'
 import Navbar from "./components/Navbar/Navbar";
 // import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
@@ -66,11 +66,11 @@ const AppContainer = compose(withRouter, connect(mapStateToProps, {initializeApp
 
 const SocialNetwork = (props) => {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Provider store={store}>
                 <AppContainer/>
             </Provider>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
 
