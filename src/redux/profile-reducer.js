@@ -2,6 +2,7 @@
 
 
 import {profileAPI, usersAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 let initialState = {
     posts: [
@@ -106,6 +107,21 @@ export const updatePhoto = (photoFile) => {
         if (response.data.resultCode === 0) dispatch(updatePhotoSuccess(response.data.data.photos));//status - новый статус, который передается из локального стейта в компоненте ProfileStatus
     }
 };
+
+export const updateProfileInfo = (profileInfo) => {
+    return async (dispatch) => {
+        const userId = profileInfo.userId;
+        const response = await profileAPI.updateProfileInfo(profileInfo);
+        if (response.data.resultCode === 0) {
+            dispatch(setProfileInfo(userId));
+            return Promise.resolve(true);
+        } else {
+            dispatch(stopSubmit("profiledata", {_error: response.data.messages[0]}));
+            return Promise.resolve(false);
+        }
+    }
+};
+
 
 
 

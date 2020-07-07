@@ -1,10 +1,10 @@
 import React from "react";
 import {
     getProfileStatus,
-    setProfile,
     setProfileInfo,
     updatePhoto,
-    updateProfileStatus
+    updateProfileStatus,
+    updateProfileInfo
 } from "../../redux/profile-reducer";
 import Profile from "./Profile";
 import {withRouter} from "react-router-dom";
@@ -67,7 +67,7 @@ class ProfileContainer extends React.Component {
 
 export default compose(
     WithAuthRedirect,
-    connect(mapStateToProps, {setProfileInfo, getProfileStatus, updateProfileStatus, updatePhoto}),
+    connect(mapStateToProps, {setProfileInfo, getProfileStatus, updateProfileStatus, updatePhoto, updateProfileInfo}),
     withRouter
 )(ProfileContainer)
 
