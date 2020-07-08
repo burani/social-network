@@ -116,7 +116,15 @@ export const updateProfileInfo = (profileInfo) => {
             dispatch(setProfileInfo(userId));
             return Promise.resolve(true);
         } else {
-            dispatch(stopSubmit("profiledata", {_error: response.data.messages[0]}));
+            let regexp = /[a-z]*(?=\))/i;
+            let errorObj = {};
+
+            for(let i = 0; i < response.data.messages.length; i++){
+                let errorName = regexp.exec(response.data.messages[i]);
+                let decapErrorName = errorName[0].charAt(0).toLowerCase() + errorName[0].slice(1);
+                errorObj[decapErrorName] = response.data.messages[i];
+            }
+            dispatch(stopSubmit("profiledata", {"contacts": errorObj}));
             return Promise.resolve(false);
         }
     }
