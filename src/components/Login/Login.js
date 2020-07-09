@@ -23,6 +23,12 @@ const LoginForm = (props) => {
             <div>
                Remember me <Field name={"rememberMe"} component={"input"} type={"checkbox"}/>
             </div>
+            {
+                props.captcha? <div>
+                    <img src={props.captcha} alt=""/>
+                    <Field name={"captcha"} component={LoginInput} validate={[required]}/>
+                </div> : ""
+            }
             <div>
                 <button>Login</button>
             </div>
@@ -55,7 +61,7 @@ const Login = (props) => {
     return (
         <div>
             <h2>Login</h2>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <LoginReduxForm onSubmit={onSubmit} captcha={props.captcha}/>
         </div>
     )
 }
@@ -63,6 +69,7 @@ const Login = (props) => {
 const mapStateToProps = (state) => {
     return {
         isAuth: state.auth.isAuth,
+        captcha: state.auth.captcha,
     }
 }
 
